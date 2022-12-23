@@ -2,14 +2,14 @@ RooFit utilities
 
 You can execute a RooFit.C program by:
 1. open root and execute .x RooFit.C
-2. compile with g++ ... FINISH!!
+2. compile with g++ Macro.C `root-config --cflags --libs`
 
 1) RooRealVar: this represents a numerical variable/constant. It has different constructors:
     RooRealVar var1("v1", "My 1st var", 5.7); #Constant var
     RooRealVar var2("v2", "My 2nd var", 1., 10.); #Range [1., 10.]
     RooRealVar var3("v3", "My 3rd var", 3., 1., 10.); #Range [1., 10.], initial value 3.
     RooRealVar time("time", "Decay time", 0., 100., "ms"); #Range and meas unit [ms]
-    RooConstVar v(...?) #Constant var
+    RooConstVar v("v", "Var name", 0.5) #Constant var
     
 2) Probability Density functions (pdf):
     - RooGaussian gauss("gauss", "gaussian PDF", x, mean, sigma); #x, mean, sigma are RooRealVar
@@ -73,11 +73,17 @@ You can execute a RooFit.C program by:
     RooWorkspace w("w");
     - Create model:
     w.factory("Gaussian::g(x[-10, 10], m[0, -10, 10], s[0.5, 0, 1])");
-    - w.pdf, w.var, w.function, w.snapshot, w.set, w.obj("generico object")
+    - Extract things from RooWorkspace:
+    w.pdf("pdf_NAME")
+    w.var("var_NAME")
+    w.function("function_NAME")
+    w.snapshot("Name")
+    w.set // Extract set of objects??
+    w.obj("generic object")
 
 9) COMPILE Root program (Test.cpp):
     - Program must contain a int main() {}
     - g++ -fsanitize=address Test.cpp $(root-config --glibs --cflags --libs) -o Test.exe
-    
+
 10) Extra utilities:
     - instead of using char* s = "hello", you can use TString s("hello");
