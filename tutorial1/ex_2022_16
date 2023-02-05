@@ -1,0 +1,78 @@
+#ifndef __CINT__
+#include "RooGlobalFunc.h"
+#endif
+
+#include "RooDataSet.h"
+#include "RooGaussian.h"
+#include "RooPlot.h"
+#include "RooRealVar.h"
+#include "TAxis.h"
+#include "TCanvas.h"
+
+using namespace RooFit;
+
+int ex_2022_16_1()
+{
+  //Creation of 8 variables 
+RooRealVar x0{"x0", "x0", 0, 1};
+RooRealVar x1{"x1", "x1", 0, 1};
+RooRealVar x2{"x2", "x2", 0, 1};
+RooRealVar x3{"x3", "x3", 0, 1};
+RooRealVar x4{"x4", "x4", 0, 1};
+RooRealVar x5{"x5", "x5", 0, 1};
+RooRealVar x6{"x6", "x6", 0, 1};
+RooRealVar x7{"x7", "x7", 0, 1};
+
+
+//Creation of a list
+RooArgList set(x0,x1,x2,x3,x4,x5,x6,x7);
+
+//Formula to calculate the sum events
+RooFormulaVar fsum{"xsum", "x0+x1+x2+x3+x4+x5+x6+x7", set};
+RooFormulaVar fsum2{"xsum2", "x0+x1", RooArgList(x0,x1)};
+
+//creation of uniform pdf
+RooUniform uniform("uniform", "Uniform PDF", set);
+RooUniform uniform2("uniform2", "Uniform2", RooArgList(x0,x1));
+
+//Unbinned dataset
+RooDataSet *data = uniform.generate(set, 10000);
+RooDataSet *data2 = uniform.generate(RooArgList(x0,x1), 10000);
+
+// Add column with variable xsum to previously generated dataset
+auto xsum = (RooRealVar*)data->addColumn(fsum);
+auto xsum2 = (RooRealVar*)data2->addColumn(fsum2);
+
+
+//Creation of gaussian pdf
+RooRealVar mean("mean", "mean", 4, 0, 8);
+RooRealVar sigma("sigma", "sigma", 2.29, 0, 8);
+RooGaussian gaussian("gaussian", "Gaussian PDF", *xsum, mean, sigma);
+
+//Plot
+auto frame = xsum->frame(Bins(40), Title("Sum of 8 Random variables"), Range(0., 8.));
+auto frame2 = xsum2->frame(Bins(40), Title("Sum of 2 Random variables"), Range(-0.5, 2.5));
+
+//Fit and plot
+gaussian.fitTo(*data);
+data->plotOn(frame, LineColor(kRed));
+gaussian.plotOn(frame);
+
+data2->plotOn(frame2);
+
+//Visualization on a canva
+TCanvas *c = new TCanvas("ex_2022_16_1", "ex_2022_16_1", 800, 400);
+
+c->Divide(2);
+
+c->cd(1);
+frame2->Draw();
+
+c->cd(2);
+frame->Draw();
+
+// Saving into a .png file
+c->SaveAs("ex_2022_16_1.png");
+  
+return 0;
+}
