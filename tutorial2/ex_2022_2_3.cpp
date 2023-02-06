@@ -21,13 +21,14 @@ void ex_2022_2_3()
   RooDataSet data = *RooDataSet::read("minos_2013_data.dat", x, "v");
 
   // Load dataset of non oscillated
-  RooDataSet mc_noosc = *RooDataSet::read("minos_2013_mc.dat", x, "v");
+  RooRealVar y("y", "energy_noosc", 0.5, 14, "GeV");
+  RooDataSet mc_noosc = *RooDataSet::read("minos_2013_mc.dat", y, "v");
   
   // Creating an Histogram based function for non oscillating neutrinos
-  RooDataSet* dd = (RooDataSet*) mc_noosc.reduce(RooArgSet(x));
+  RooDataSet* dd = (RooDataSet*) mc_noosc.reduce(RooArgSet(y));
   RooDataHist* dh_mc_noosc = dd->binnedClone();
 
-  RooHistFunc func_noosc {"func_mc_noosc", "No oscillation", x, *dh_mc_noosc, 2};
+  RooHistFunc func_noosc {"func_mc_noosc", "No oscillation", y, *dh_mc_noosc, 2};
 
   // MOdel PDF of the energy distribution
   RooRealVar mixing("mixing", "( sin(2 * theta) )^2", 0, 1);
@@ -46,23 +47,68 @@ void ex_2022_2_3()
   model.plotOn(frame);
 
   // Drawing and Printing
-  TCanvas *c= new TCanvas("ex_2022_2_3","ex_2022_2_3"); 
+  TCanvas *c= new TCanvas("ex_2022_2_3_data","ex_2022_2_3_data"); 
   frame->Draw();
 
-  // Save image as .png
-  //c->Print("minos_data.png");
+  // Print folowing results on file Results.txt
+  std::ofstream outfile("ex_2022_2_3_Results.txt");
 
-  // Costruct function object representing -log(L)
-  RooAbsReal* nll = pdf.createNLL(data);
+  // Costruct unbinned likelihood of model w.r.t. data 
+  RooAbsReal* nll = model.createNLL(data);
   
-  // Create a Minuit interface object
-  RooMinuit m(*nll);
-
+  // Create a MINUIT interface object
+  RooMinimizer m(*nll);
+  
+  // Activate verbose logging of MINUIT parameter
   m.setVerbose(kTRUE);
+
+  // Call MIGRAD to minimize the likelihood
   m.migrad();
+
+  // Print values of all parameters, that reflect values (and error estimates)
+  // that are back propagated from MINUIT. [A]
   dm2.Print();
   mixing.Print();
+
+  // Disable verbose logging
   m.setVerbose(kFALSE);
  
+  // Run HESSE to calculate errors from d2L/dp2
   m.hesse();
+
+  // Print value (and error) of (dm2, mixing) parameter, that reflects
+  // value and error back propagated from MINUIT. [B]
+  dm2.Print();
+  mixing.Print();
+
+  // Run MINOS on dm2 parameter only
+  m.minos(dm2);
+
+  // Print value (and error) of dm2 parameter, that reflects
+  // value and error back propagated from MINUIT. [C]
+  dm2.Print();
+
+  // Save a snapshot of the fit result. This object contains the initial
+  // fit parameters, the final fit parameters, the complete correlation
+  // matrix, the EDM, the minimized FCN , the last MINUIT status code and
+  // the number of times the RooFit function object has indicated evaluation
+  // problems (e.g. zero probabilities during likelihood evaluation)
+  RooFitResult *res = m.save();
+
+  // Make contour plot of dm2 vs mixing at 1,2,3 sigma
+  RooPlot *frame_contour = m.contour(mixing, dm2, 1, 2, 3);
+  frame_contour->SetTitle("Minuit contour plot");
+
+  // Drawing the plot
+  TCanvas *c2= new TCanvas("ex_2022_2_3_likelihood","ex_2022_2_3_likelihood"); 
+  frame_contour->Draw();
+  
+  // Saving snapshot of fit result and cloing outfile. [D]
+  res->printTitle(outfile);
+  res->printMultiline(outfile, 0, true);
+  outfile.close();
+
+  // Save image as .png
+  c->Print("minos_data.png");
+  c2->Print("minos_likelihood.png");
  }
