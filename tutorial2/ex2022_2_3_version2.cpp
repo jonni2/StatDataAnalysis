@@ -64,9 +64,13 @@ void ex2022_2_3() {
     // Call Migrad algorithm to find nll minimum
     m.migrad();
     
-    // Printing fit parameters and errors
-    dm2.Print();
-    mixing.Print();
+    // Printing fit parameters and errors [A]
+    std::ofstream os{"ex2022_2_3_FitResult.txt"};
+    os << "Migrad [A]\ndm2 (eV^2): ";
+    dm2.printValue(os);
+    os << "\nmixing: ";
+    mixing.printValue(os);
+    os << "\n\n";
     
     // Disable Verbose option
     m.setVerbose(kFALSE);
@@ -74,21 +78,28 @@ void ex2022_2_3() {
     // Run Hesse
     m.hesse();
     
-    // Print parameters and errors
-    dm2.Print();
-    mixing.Print();
+    // Print parameters and errors [B]
+    os << "Hesse [B]:\ndm2 (eV^2): ";
+    dm2.printValue(os);
+    os << "\nmixing: ";
+    mixing.printValue(os);
+    os << "\n\n";
     
     // Run Minos only on dm2
     m.minos(RooArgSet(dm2));
     
-    // Print value of dm2
-    dm2.Print();
+    // Print value of dm2 [C]
+    os << "Minos [C]:\ndm2 (eV^2): ";
+    dm2.printValue(os);
+    os << "\n\n";
     
-    // Save results
+    // Save results {D}
     RooFitResult* result = m.save();
     
     // Print results
     result->Print("v");
+    
+    result->printMultiline(os, 0, kTRUE);
     
     // Make contour plot
     RooPlot* frame_contout = m.contour(mixing, dm2, 1, 2, 3);
