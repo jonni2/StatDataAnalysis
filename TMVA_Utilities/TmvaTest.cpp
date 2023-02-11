@@ -56,4 +56,7 @@ void TmvaTest() {
     auto c = factory.GetROCCurve(&loader);
     c->Draw();
     
+    // Open the Gui to check training (the name must be tha same of the outputFile)
+    TMVA::TMVAGui("TmvaTest.root");
+    
 }
