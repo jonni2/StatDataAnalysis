@@ -1,0 +1,25 @@
+Migrad [A]
+dm2 (eV^2): 0.00231512 +/- 7.563e-05
+mixing: 0.884715 +/- 0.0259606
+
+Hesse [B]:
+dm2 (eV^2): 0.00231512 +/- 7.53544e-05
+mixing: 0.884715 +/- 0.0258662
+
+Minos [C]:
+dm2 (eV^2): 0.00231512 +/- (-7.3909e-05,7.68038e-05)
+
+
+  RooFitResult: minimized FCN value: 8395.93, estimated distance to minimum: 5.51165e-06
+                covariance matrix quality: Full, accurate covariance matrix
+                Status : MIGRAD=0 HESSE=0 MINOS=0 
+
+    Constant Parameter    Value     
+  --------------------  ------------
+                     L    7.3000e+02
+
+    Floating Parameter  InitialValue    FinalValue (+HiError,-LoError)    GblCorr.
+  --------------------  ------------  ----------------------------------  --------
+                   dm2    2.3150e-03    2.3151e-03 (+7.68e-05,-7.39e-05)  <none>
+                mixing    8.8484e-01    8.8471e-01         +/-  2.59e-02  <none>
+
