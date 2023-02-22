@@ -1,0 +1,12 @@
+Result of fit of p.d.f. model to dataset data
+  RooFitResult: minimized FCN value: 41298.6, estimated distance to minimum: 0.000398645
+                covariance matrix quality: Full matrix, but forced positive-definite
+                Status : MINIMIZE=0 HESSE=0 
+
+    Floating Parameter  InitialValue    FinalValue +/-  Error     GblCorr.
+  --------------------  ------------  --------------------------  --------
+                     m    4.0000e+03    4.0817e+03 +/-  4.81e+02  <none>
+                    p0    9.0000e+03    9.8047e+03 +/-  4.86e+02  <none>
+                    p1    5.0000e+02    5.1058e+02 +/-  2.65e+01  <none>
+                     s    1.0000e+03    1.3644e+03 +/-  4.62e+01  <none>
+
