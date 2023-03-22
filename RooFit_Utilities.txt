@@ -27,6 +27,7 @@ You can execute a RooFit.C program by:
     - gauss.plotOn(xframe, RooFit::LineColor(kRed), RooFit::LineStyle(...)); //Draw COLORS and line STYLES (kDashed...)!
     - gauss.plotOn(xframe, RooFit::LineColor(kRed), RooFit::Components("comp")); //Component of COMPOSITE MODEL
     - ATTENTION: if you want to plot a model FITTED to a dataset, you must ALWAYS do model.plotOn(frame) BEFORE doing model.fitTo(dataset)
+    - ATTENTION: ALWAYS PLOT dataset BEFORE model
     
 4) Composite model:
     - PDFs FRACTIONS (N PDFs, N-1 coefs (float [0, 1])):
