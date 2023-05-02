@@ -515,7 +515,7 @@ void higgs_atlas(){
     mc_mass.SetObservables(*w.var("x"));
      // Nuisance
      w.defineSet("nuisParams2","nbackground,a1,a2,nsignal,width");
-    mc_mass.SetNuisanceParameters(*w.set("nuisParams")); 
+    mc_mass.SetNuisanceParameters(*w.set("nuisParams2"));
     mc.SetSnapshot(mass);
 
     w.import(mc_mass);
@@ -527,21 +527,20 @@ void higgs_atlas(){
 ////////////// PART 2 //////////////////
 
     ProfileLikelihoodCalculator plc(data, mc_mass);
-    plc.SetConfidenceLevel(0.68);    
+    plc.SetConfidenceLevel(0.68);
     LikelihoodInterval* interval = plc.GetInterval();
     auto poi = static_cast<RooRealVar*>(mc_mass.GetParametersOfInterest()->first());
     double lowerLimit = interval->LowerLimit(*poi);
     double upperLimit = interval->UpperLimit(*poi);
-    
 
     TCanvas* c2 = new TCanvas ("c2", "c2");
     LikelihoodIntervalPlot plot2(interval);
     plot2.Draw();
 
-////////////// PART 3 ////////////////// 
+////////////// PART 3 //////////////////
 
     FeldmanCousins fc(data, mc_mass);
-    fc.SetConfidenceLevel(0.9);  
+    fc.SetConfidenceLevel(0.9);
     fc.SetNBins(10); // set how many points per parameter of interest to scan
     fc.CreateConfBelt(true);
 
