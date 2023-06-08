@@ -87,5 +87,8 @@ You can execute a RooFit.C program by:
     - Program must contain a int main() {}
     - g++ -fsanitize=address Test.cpp $(root-config --glibs --cflags --libs) -o Test.exe
 
-10) Extra utilities:
+10) FITTING:
+    - model.fitTo(data, RooFit::Range(a, b)); // Fit in RANGE [a, b]
+    
+11) Extra utilities:
     - instead of using char* s = "hello", you can use TString s("hello");
