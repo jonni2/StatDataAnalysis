@@ -1,0 +1,93 @@
+This is a collection of topics discussed during past examinations.
+
+The list is related only to the teaching program of the Laboratory 
+(Module 3, G.Sirri). The list is not exhaustive.
+
+During the oral examination, teachers are not be bound to this list, 
+and the discussion of connections with theory and complements is
+appreciated. 
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+
+ 
+
+[MODELLING]
+
+ 
+
+- Terminology: Ensamble, Experiment, Channel, Observable, 
+  Parameters of Interest, Nuisance, Distribution, ... 
+
+ - The Marked Poisson Model, Extended Likelihood, ...
+
+ - Slice Likelihood vs Profile Likelihood
+
+ - the p.d.f. of a generic extended composite model,
+  composite means signal + background
+ - Nuisance parameters and POI
+ 
+
+ 
+
+[FITTING]
+
+- The list of algorythms implemented in MINUT. What are meant for?
+
+- The difference MINOS vs MIGRAD/HESSE
+
+- The theory behind the error computation by HESSE
+
+- The connection between MINOS and Profile Likelihood Interval
+
+- common fitting problems...  sources of fit instability, how to deal with?
+
+- example of a simple model where fitting problems may be expected.
+  how to fix?
+- source of fit instability? can you write an example of probability model where we can expect
+fit instability?
+ 
+
+[MVA]  
+- Definition of (signal|background) efficiency.
+	eps_s = selected_sig/total_sig = 1-beta
+	eps_b = selected_bkg/total_bkg = alpha
+
+- Definition of background rejection power. = 1-eps_b = 1-alpha
+
+- Definition of Signal purity = p(s!x€W) = eps_s*N_s/(eps_s*N_s + eps_b*N_b)
+
+- The ROC curve. How to build a ROC curve.
+
+- We have to set the best cut on the output of some classificator
+  to be applied to the search of signal over a background. 
+  We have the ROC curve. Is it sufficient?
+	No, I mean, it's not even useful (?)
+	What we must do to set the best cut is to study the distrib of the test statistic and
+	put the cut also according to the NUMBER of SIG and BKG EVENTS
+
+- which strategy we have to apply to find the best cut 
+  for significance discovery?
+	Maximize expected significance (see slides SIOLI 16/72)
+
+- ROC curve with disjoint PDFs
+	It should be the STEP function (ideal BEST ROC curve in the Universe!!)
+
+- optimal cut for classification
+- how can I see overtraining in TMVA
+  Kolmogorov-Smirnov test (topic discussed in theory/complements)
+  
+[SYSTEMATICS]
+
+- The ON/OFF problem. Make an example (i.e. a counting model).
+
+- Profile Likelihood Ratio as test statistics.
+  How is distributed the test statistics if H0 is true/false.
+  if the model is not correct how is the test 
+  statistics distributed. 
+- how incorporate systematics in a generic (marked poisson) model.
+
+- signal/control regions, constraint terms, global observables
+
+- nuisance parameters: profile likelihood and parameter marginalization
+
+- Do you know some way to estimate intervals in presence of nuisance parameters?
